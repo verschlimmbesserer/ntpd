@@ -1,0 +1,13 @@
+---
+# tasks file for ntpd
+- name: Ensure ntp ist installed
+  ansible.builtin.apt:
+    name: ntp
+    state: present
+    update_cache: true
+
+- name: Set timezone to {{ ntpd_timezone }}
+  ansible.builtin.command: "timedatectl set-timezone {{ ntpd_timezone }}"
+  register: set_timezone
+  changed_when: set_timezone.rc != 0
+  become: true
